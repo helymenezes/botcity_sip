@@ -17,7 +17,7 @@ def main():
 
     bot = DesktopBot()
     
-    path_excel = r'C:\Users\OneEngInst\Projetos_python\bot\abertura_os\cad_ciclo_5a_.xlsx'
+    path_excel = r'abertura_os\abrir.xlsx'
     
     try:
         cad = pd.read_excel(path_excel)
@@ -37,7 +37,7 @@ def main():
         print("Column 'IDSERVICOSCONJ' not found in the Excel file.")
         return
     
-    bot.execute(r'C:\Users\OneEngInst\OneDrive - ONE ENGENHARIA INDUSTRIA E COMERCIO LTDA\Área de Trabalho\Gestao Produção.appref-ms')
+    bot.execute(r'C:\Users\Usuario\OneDrive - ONE ENGENHARIA INDUSTRIA E COMERCIO LTDA\Área de Trabalho\Gestao Produção.appref-ms')
     if not bot.find( "iserir_usuario", matching=0.97, waiting_time=10000):
         not_found("iserir_usuario")
         return
@@ -72,15 +72,18 @@ def start_process(bot, data):
             codigo_one = row['IDSERVICOSCONJ']  # Ajuste conforme o nome da coluna correta  
 
             bot.kb_type(codigo_one)
+            time.sleep(5)
             bot.tab()
+            time.sleep(5)
             bot.enter()  # Pressiona enter para 
             
             
-            time.sleep(3)
-            if not bot.find_text( "novo+", threshold=130, waiting_time=20000):
+            time.sleep(5)
+            if not bot.find_text( "novo+", threshold=130, waiting_time=10000):
                 not_found("novo+")
             bot.move()
             bot.click()
+            time.sleep(5)
             
             if not bot.find( "incluir_novo_registro", matching=0.97, waiting_time=50000):
                 not_found("incluir_novo_registro")
@@ -88,34 +91,43 @@ def start_process(bot, data):
             bot.move()
             bot.click()
             bot.enter(presses=7)
+            time.sleep(5)
             for _ in range(3):
                 bot.type_down()
             bot.enter()
             bot.type_down()
             bot.enter()
-            for _ in range(12):
+            time.sleep(5)
+            for _ in range(9):
                 bot.type_down()
             bot.enter()
+            time.sleep(5)
             for _ in range(4):
                 bot.type_down()
-            if not bot.find( "save", matching=0.97, waiting_time=20000):
+            time.sleep(5)
+            if not bot.find( "save", matching=0.97, waiting_time=10000):
                 not_found("save")
                 return  # Reinicia o loop ao encontrar um elemento não encontrado
             bot.move()
-            bot.click(wait_after=2000)
+            bot.click(wait_after=30000)
             bot.enter()
-            if not bot.find( "enter_close", matching=0.97, waiting_time=20000):
+
+            time.sleep(10)
+
+            if not bot.find( "enter_close", matching=0.97, waiting_time=10000):
                 not_found("enter_close")
                 return  # Reinicia o loop ao encontrar um elemento não encontrado
             bot.move()
             bot.click()
+
+            time.sleep(30)
             
-            if not bot.find_text( "closed_cad", threshold=230, waiting_time=20000):
+            if not bot.find_text( "closed_cad", threshold=230, waiting_time=10000):
                 not_found("closed_cad")
             bot.move()
             bot.click()
             
-            time.sleep(15)
+            time.sleep(30)
             
             if i == len(data) - 1:
                 alert(f'O último número do Código ONE é {codigo_one}')
@@ -132,6 +144,3 @@ def alert(message):
 
 if __name__ == '__main__':
     main()
-
-
-
